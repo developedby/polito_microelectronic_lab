@@ -1,0 +1,36 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ACC_NBIT8_1
+Version: S-2021.06-SP4
+Date   : Thu Mar 23 09:57:28 2023
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: accumulated_reg[7]
+              (rising edge-triggered flip-flop)
+  Endpoint: Y[7] (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ACC_NBIT8_1        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  accumulated_reg[7]/CK (DFF_X1)           0.00       0.00 r
+  accumulated_reg[7]/Q (DFF_X1)            0.09       0.09 r
+  Y[7] (out)                               0.00       0.09 r
+  data arrival time                                   0.09
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
