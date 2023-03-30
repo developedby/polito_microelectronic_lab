@@ -76,8 +76,8 @@ architecture structural of pstlaa_g is
       Gij : out std_logic);
   end component;
 
-  signal Pout_left : std_logic_vector(((NBIT/NBIT_PER_BLOCK)/2)-1 downto 0);
-  signal Gout_left, Gout_right : std_logic_vector(((NBIT/NBIT_PER_BLOCK)/2)-1 downto 0);
+  signal Pout_left : std_logic_vector(MAXIMUM(((NBIT/NBIT_PER_BLOCK)/2)-1, 0) downto 0);
+  signal Gout_left, Gout_right : std_logic_vector(MAXIMUM(((NBIT/NBIT_PER_BLOCK)/2)-1, 0) downto 0);
 begin
   stop_condition: if NBIT = NBIT_PER_BLOCK generate
     -- From this point inwards, each subtree only has 1 output,
@@ -87,7 +87,7 @@ begin
     port map (
       Pin => Pin,
       Gin => Gin,
-      Gout => Gout_left(0)
+      Gout => Gout(0)
     );
   else generate
     -- Separate sub instances between left and right

@@ -11,7 +11,7 @@ entity sum_generator is
   port (
     A : in  std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0);
     B : in  std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0);
-    C : in  std_logic_vector(NBLOCKS-1 downto 0);
+    Ci: in  std_logic_vector(NBLOCKS-1 downto 0);
     S : out std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0));
 end entity;
 
@@ -36,16 +36,8 @@ begin
 	  Port Map (
       A   => A((NBIT_PER_BLOCK*I)-1 downto NBIT_PER_BLOCK*(I-1)),
       B   => B((NBIT_PER_BLOCK*I)-1 downto NBIT_PER_BLOCK*(I-1)),
-      Cin => C(I-1),
+      Cin => Ci(I-1),
       S   => S((NBIT_PER_BLOCK*I)-1 downto NBIT_PER_BLOCK*(I-1))); 
   end generate;
 
 end structural;
-
-configuration CFG_SG_STRUCTURAL of sum_generator is
-  for STRUCTURAL
-    for all : carry_select_block
-      use configuration WORK.CFG_CSB_STRUCTURAL;
-    end for;
-  end for;
-end CFG_SG_STRUCTURAL;

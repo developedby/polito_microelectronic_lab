@@ -40,35 +40,3 @@ begin
   end generate;
 
 end STRUCTURAL;
-
-
-architecture BEHAVIORAL of RCA is
-  signal result: std_logic_vector(NBIT downto 0);
-  signal ax: std_logic_vector(NBIT downto 0);
-  signal bx: std_logic_vector(NBIT downto 0);
-  signal cix: std_logic_vector(NBIT downto 0);
-begin
-  ax <= "0" & A;
-  bx <= "0" & B;
-  cix(0) <= Ci;
-  cix(NBIT downto 1) <= (others => '0');
-  result <= (ax + bx + cix);
-  S <= result(NBIT-1 downto 0);
-  Co <= result(NBIT);
-  
-end BEHAVIORAL;
-
-configuration CFG_RCA_STRUCTURAL of RCA is
-  for STRUCTURAL 
-    for ADDER1
-      for all : FA
-        use configuration WORK.CFG_FA_BEHAVIORAL;
-      end for;
-    end for;
-  end for;
-end CFG_RCA_STRUCTURAL;
-
-configuration CFG_RCA_BEHAVIORAL of RCA is
-  for BEHAVIORAL 
-  end for;
-end CFG_RCA_BEHAVIORAL;

@@ -9,7 +9,7 @@ entity carry_generator is
   port (
     A : in  std_logic_vector(NBIT-1 downto 0);
     B : in  std_logic_vector(NBIT-1 downto 0);
-    Ci: in std_logic;
+    Ci: in  std_logic;
     Co: out std_logic_vector((NBIT/NBIT_PER_BLOCK)-1 downto 0));
 end entity;
 
@@ -24,7 +24,7 @@ architecture structural of carry_generator is
       Gout: out std_logic_vector((NBIT/NBIT_PER_BLOCK)-1 downto 0));
   end component;
 
-  signal P, G: std_logic_vector(NBIT downto 0);
+  signal P, G: std_logic_vector(NBIT-1 downto 0);
 begin
   P <= A xor B;
   G <= A and B;

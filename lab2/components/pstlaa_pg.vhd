@@ -60,8 +60,8 @@ begin
     port map (
       Pin => Pin,
       Gin => Gin,
-      Pout => Pout_left(0),
-      Gout => Gout_left(0)
+      Pout => Pout(0),
+      Gout => Gout(0)
     );
   else generate
     -- Separate sub instances between left and right

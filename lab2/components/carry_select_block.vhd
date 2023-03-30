@@ -44,11 +44,3 @@ begin
   S <= S0 when Cin = '0' else S1;
 
 end structural;
-
-configuration CFG_CSB_STRUCTURAL of carry_select_block is
-  for STRUCTURAL
-    for all : RCA
-      use configuration WORK.CFG_RCA_STRUCTURAL;
-    end for;
-  end for;
-end CFG_CSB_STRUCTURAL;

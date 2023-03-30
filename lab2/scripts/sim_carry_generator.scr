@@ -1,0 +1,13 @@
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/constants.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/g_block.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/pg_block.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/pstlaa_g_no_out.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/pstlaa_pg_no_out.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/pstlaa_g.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/pstlaa_pg.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/carry_generator.vhd
+vcom -2008 -work work /home/ms23.7/lab2/vhdlsim/tb_carry_generator.vhd
+vsim -t 100ps work.TB_CARRY_GENERATOR
+add wave *
+run 50ns
+
