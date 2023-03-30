@@ -4,7 +4,7 @@ use WORK.constants.all;
 
 entity p4_adder is
   generic (
-    RADIX: integer := NumBitBlock;
+    NBIT_PER_BLOCK: integer := NumBitBlock;
     NBIT : natural := NumBitTotal);
   port (
     A :		in	std_logic_vector(NBIT-1 downto 0);
@@ -18,13 +18,13 @@ architecture structural of p4_adder is
 
   component carry_generator is
     generic (
-      RADIX: natural := NumBitBlock;
+      NBIT_PER_BLOCK: natural := NumBitBlock;
       NBIT : natural := NumBitTotal);
     port (
       A : in  std_logic_vector(NBIT-1 downto 0);
       B : in  std_logic_vector(NBIT-1 downto 0);
       Ci: in std_logic;
-      Co: out std_logic_vector((NBIT/RADIX)-1 downto 0));
+      Co: out std_logic_vector((NBIT/NBIT_PER_BLOCK)-1 downto 0));
   end component;
 
   component sum_generator is
@@ -38,17 +38,17 @@ architecture structural of p4_adder is
       S : out std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0));
   end component;
 
-  signal C : std_logic_vector((NBIT/RADIX)-1 downto 0);
+  signal C : std_logic_vector((NBIT/NBIT_PER_BLOCK)-1 downto 0);
 begin
 
   carry: carry_generator
-  generic map (RADIX => RADIX, NBIT => NBIT)
+  generic map (NBIT_PER_BLOCK => NBIT_PER_BLOCK, NBIT => NBIT)
   port map (A => A, B => B, Ci => Cin, Co => C);
   
   sum: sum_generator
-  generic map (NBIT_PER_BLOCK => RADIX, NBLOCKS => NBIT/RADIX)
+  generic map (NBIT_PER_BLOCK => NBIT_PER_BLOCK, NBLOCKS => NBIT/NBIT_PER_BLOCK)
   port map (A => A, B => B, C => C, S => S);
 
-  Cout <= -- ??
+  Cout <= C((NBIT/NBIT_PER_BLOCK)-1);
 
 end architecture;

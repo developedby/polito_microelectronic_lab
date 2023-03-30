@@ -4,12 +4,12 @@ use WORK.constants.all;
 
 -- parametric sparse tree look-ahead adder
 -- G/PG subtree
--- For when NBIT < RADIX,
--- the outputs would not have index multiple of RADIX,
+-- For when NBIT < NBIT_PER_BLOCK,
+-- the outputs would not have index multiple of NBIT_PER_BLOCK,
 -- so we only pass the MSB forward to the parent subtree.
 entity pstlaa_g_no_out is
   generic (
-    RADIX: natural := NumBitBlock;
+    NBIT_PER_BLOCK: natural := NumBitBlock;
     NBIT : natural := NumBitTotal);
   port (
     Pin : in  std_logic_vector(NBIT-1 downto 0);
@@ -21,7 +21,7 @@ end entity;
 architecture structural of pstlaa_g_no_out is
   component pstlaa_g_no_out is
     generic (
-      RADIX: natural := NumBitBlock;
+      NBIT_PER_BLOCK: natural := NumBitBlock;
       NBIT : natural := NumBitTotal);
     port (
       Pin : in  std_logic_vector(NBIT-1 downto 0);
@@ -31,7 +31,7 @@ architecture structural of pstlaa_g_no_out is
   
   component pstlaa_pg_no_out is
     generic (
-      RADIX: natural := NumBitBlock;
+      NBIT_PER_BLOCK: natural := NumBitBlock;
       NBIT : natural := NumBitTotal);
     port (
       Pin : in  std_logic_vector(NBIT-1 downto 0);
@@ -68,7 +68,7 @@ begin
     -- Separate sub instances between left and right
     -- For the PG subtree the two subsubtrees are also PG-blocks only.
     left_pstlaa: pstlaa_pg_no_out
-    generic map (RADIX => RADIX, NBIT => NBIT/2)
+    generic map (NBIT_PER_BLOCK => NBIT_PER_BLOCK, NBIT => NBIT/2)
     port map (
       Pin => Pin(NBIT-1 downto NBIT/2),
       Gin => Gin(NBIT-1 downto NBIT/2),
@@ -77,14 +77,14 @@ begin
     );
 
     right_pstlaa: pstlaa_g_no_out
-    generic map (RADIX => RADIX, NBIT => NBIT/2)
+    generic map (NBIT_PER_BLOCK => NBIT_PER_BLOCK, NBIT => NBIT/2)
     port map (
       Pin  => Pin((NBIT/2)-1 downto 0),
       Gin  => Gin((NBIT/2)-1 downto 0),
       Gout => Gout_right
     );
 
-    -- For these subtrees with radix > nbit,
+    -- For these subtrees with NBIT_PER_BLOCK > nbit,
     -- we only have one connecting PG block which is the output for the parent subtree
     single_g: g_block
     port map (Gik => Gout_left, Pik => Pout_left, Gkj => Gout_right, Gij => Gout);

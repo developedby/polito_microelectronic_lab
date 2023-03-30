@@ -2,10 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all; 
 use ieee.numeric_std.all; -- we need a conversion to unsigned 
 
-entity TBRCAGEN is 
-end TBRCAGEN; 
+entity TBRCA is 
+end TBRCA; 
 
-architecture TEST of TBRCAGEN is
+architecture TEST of TBRCA is
   constant NBIT: integer := 6;
 
   component LFSR16 
@@ -15,7 +15,7 @@ architecture TEST of TBRCAGEN is
           ZERO_D : out std_logic);
   end component;
 
-  component RCA_GENERIC
+  component RCA
   generic (
     NBIT : integer;
     DRCAS : Time := 0 ns;
@@ -39,17 +39,17 @@ architecture TEST of TBRCAGEN is
 Begin
 
 -- Instanciate the ADDER without delay in the carry generation
-  UADDER1: RCA_GENERIC 
+  UADDER1: RCA 
 	   generic map (NBIT => NBIT, DRCAS => 0.02 ns, DRCAC => 0 ns) 
 	   port map (A, B, Ci, S1, Co1);
   
 -- Instanciate the ADDER with delay
-  UADDER2: RCA_GENERIC 
+  UADDER2: RCA 
 	   generic map (NBIT => NBIT, DRCAS => 0.02 ns, DRCAC => 0.02 ns) 
 	   port map (A, B, Ci, S2, Co2);
 
 -- Instanciate the ADDER behavioral
-  UADDER3: RCA_GENERIC 
+  UADDER3: RCA 
 	   generic map (NBIT => NBIT, DRCAS => 0.02 ns, DRCAC => 0.02 ns) 
 	   port map (A, B, Ci, S3, Co3);
 
@@ -88,16 +88,16 @@ Begin
 
 end TEST;
 
-configuration RCAGENTEST of TBRCAGEN is
+configuration RCAGENTEST of TBRCA is
   for TEST
-    for UADDER1: RCA_GENERIC
-      use configuration WORK.CFG_RCA_GEN_STRUCTURAL;
+    for UADDER1: RCA
+      use configuration WORK.CFG_RCA_STRUCTURAL;
     end for;
-    for UADDER2: RCA_GENERIC
-      use configuration WORK.CFG_RCA_GEN_STRUCTURAL;
+    for UADDER2: RCA
+      use configuration WORK.CFG_RCA_STRUCTURAL;
     end for;
-    for UADDER3: RCA_GENERIC
-      use configuration WORK.CFG_RCA_GEN_BEHAVIORAL;
+    for UADDER3: RCA
+      use configuration WORK.CFG_RCA_BEHAVIORAL;
     end for;
   end for;
 end RCAGENTEST;
