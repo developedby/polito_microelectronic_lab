@@ -7,13 +7,13 @@ end TB_CARRY_GENERATOR;
 
 architecture TEST of TB_CARRY_GENERATOR is
 
-	constant NBIT : natural := 8;
+	constant NBIT : natural := 16;
 	constant NBIT_PER_BLOCK : natural := 4;
 
 	component CARRY_GENERATOR is
 		generic (
-			NBIT :		integer := 32;
-			NBIT_PER_BLOCK: integer := 4);
+			NBIT: integer;
+			NBIT_PER_BLOCK: integer);
 		port (
 			A :	in	std_logic_vector(NBIT-1 downto 0);
 			B :	in	std_logic_vector(NBIT-1 downto 0);
@@ -30,17 +30,17 @@ begin
 	generic map (NBIT, NBIT_PER_BLOCK)
 	port map (A, B, Ci, Co);
 
-	A <= "00000000",
-		"01010101" after 2 ns,
-		"11111111" after 4 ns,
-		"00111100" after 6 ns,
-		"01101010" after 8 ns;
+	A <= x"0000",
+		x"0055" after 2 ns,
+		x"00FF" after 4 ns,
+		x"003B" after 6 ns,
+		x"006A" after 8 ns;
 
-	B <= "00000000",
-		"10101010" after 2 ns,
-		"00000000" after 4 ns,
-		"10010101" after 6 ns,
-		"00110110" after 8 ns;
+	B <= x"0000",
+		x"00AA" after 2 ns,
+		x"0000" after 4 ns,
+		x"0095" after 6 ns,
+		x"0036" after 8 ns;
 
 	ci_proc: process
 	begin

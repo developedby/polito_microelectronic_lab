@@ -10,4 +10,17 @@ package CONSTANTS is
    constant NumBit : integer := 4;
    constant NumBitBlock : integer := 4;
    constant NumBitTotal : integer := 32;
+
+   function max (a: integer; b: integer) return integer;
+end CONSTANTS;
+
+package body CONSTANTS is
+   function max (a: integer; b: integer) return integer is
+   begin
+      if a >= b then
+         return a;
+      else
+         return b;
+      end if;
+   end function;
 end CONSTANTS;

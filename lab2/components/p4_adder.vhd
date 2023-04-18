@@ -34,7 +34,7 @@ architecture structural of p4_adder is
     port (
       A : in  std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0);
       B : in  std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0);
-      C : in  std_logic_vector(NBLOCKS-1 downto 0);
+      Ci: in  std_logic_vector(NBLOCKS-1 downto 0);
       S : out std_logic_vector((NBIT_PER_BLOCK*NBLOCKS)-1 downto 0));
   end component;
 
@@ -47,7 +47,7 @@ begin
   
   sum: sum_generator
   generic map (NBIT_PER_BLOCK => NBIT_PER_BLOCK, NBLOCKS => NBIT/NBIT_PER_BLOCK)
-  port map (A => A, B => B, C => C, S => S);
+  port map (A => A, B => B, Ci => C, S => S);
 
   Cout <= C((NBIT/NBIT_PER_BLOCK)-1);
 
