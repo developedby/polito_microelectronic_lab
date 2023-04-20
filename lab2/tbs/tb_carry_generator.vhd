@@ -8,7 +8,8 @@ end TB_CARRY_GENERATOR;
 architecture TEST of TB_CARRY_GENERATOR is
 
 	constant NBIT : natural := 16;
-	constant NBIT_PER_BLOCK : natural := 4;
+	constant NBIT_PER_BLOCK : natural := 2;
+	constant NBLOCKS : natural := NBIT / NBIT_PER_BLOCK;
 
 	component CARRY_GENERATOR is
 		generic (
@@ -18,29 +19,34 @@ architecture TEST of TB_CARRY_GENERATOR is
 			A :	in	std_logic_vector(NBIT-1 downto 0);
 			B :	in	std_logic_vector(NBIT-1 downto 0);
 			Ci:	in	std_logic;
-			Co:	out	std_logic_vector((NBIT/NBIT_PER_BLOCK)-1 downto 0));
+			Co:	out	std_logic_vector(NBLOCKS downto 0));
 	end component;
 
 	signal A, B : std_logic_vector(NBIT-1 downto 0);
 	signal Ci   : std_logic;
-	signal Co   : std_logic_vector((NBIT/NBIT_PER_BLOCK)-1 downto 0);
+	signal Co   : std_logic_vector(NBLOCKS downto 0);
 begin
 
 	uut: CARRY_GENERATOR
-	generic map (NBIT, NBIT_PER_BLOCK)
+	generic map (NBIT => NBIT, NBIT_PER_BLOCK => NBIT_PER_BLOCK)
 	port map (A, B, Ci, Co);
 
-	A <= x"0000",
-		x"0055" after 2 ns,
-		x"00FF" after 4 ns,
-		x"003B" after 6 ns,
-		x"006A" after 8 ns;
+	leading_zeros: if NBIT > 8 generate
+		A(NBIT-1 downto 8) <= (others => '0');
+		B(NBIT-1 downto 8) <= (others => '0');
+	end generate;
 
-	B <= x"0000",
-		x"00AA" after 2 ns,
-		x"0000" after 4 ns,
-		x"0095" after 6 ns,
-		x"0036" after 8 ns;
+	A(7 downto 0) <= x"00",
+		x"55" after 2 ns,
+		x"FF" after 4 ns,
+		x"3B" after 6 ns,
+		x"6A" after 8 ns;
+
+	B(7 downto 0) <= x"00",
+		x"AA" after 2 ns,
+		x"00" after 4 ns,
+		x"95" after 6 ns,
+		x"36" after 8 ns;
 
 	ci_proc: process
 	begin

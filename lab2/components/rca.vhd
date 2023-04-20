@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use WORK.constants.all;
 
--- Ripple Carry
+-- Ripple Carry Adder
 entity RCA is 
 	generic (NBIT: integer := numBit);
 	Port (

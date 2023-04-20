@@ -31,13 +31,16 @@ begin
   -- each using one bit of the input carry, NBIT_PER_BLOCK of A and B,
   -- and generating NBIT_PER_BLOCK of the output sum.
   CSB1: for I in 1 to NBLOCKS generate
+    constant CSB_LEFT : natural := (NBIT_PER_BLOCK * I) - 1;
+    constant CSB_RIGHT: natural := NBIT_PER_BLOCK * (I - 1);
+  begin
     CSB : carry_select_block
     generic map (NBIT => NBIT_PER_BLOCK)
 	  Port Map (
-      A   => A((NBIT_PER_BLOCK*I)-1 downto NBIT_PER_BLOCK*(I-1)),
-      B   => B((NBIT_PER_BLOCK*I)-1 downto NBIT_PER_BLOCK*(I-1)),
+      A   => A(CSB_LEFT downto CSB_RIGHT),
+      B   => B(CSB_LEFT downto CSB_RIGHT),
       Cin => Ci(I-1),
-      S   => S((NBIT_PER_BLOCK*I)-1 downto NBIT_PER_BLOCK*(I-1))); 
+      S   => S(CSB_LEFT downto CSB_RIGHT)); 
   end generate;
 
 end structural;

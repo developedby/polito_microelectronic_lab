@@ -1,3 +1,6 @@
+library ieee;
+use ieee.MATH_REAL.all;
+
 package CONSTANTS is
    constant IVDELAY : time := 0.1 ns;
    constant NDDELAY : time := 0.2 ns;
@@ -12,9 +15,12 @@ package CONSTANTS is
    constant NumBitTotal : integer := 32;
 
    function max (a: integer; b: integer) return integer;
+   function if_fn (cond: boolean; t: integer; f: integer) return integer;
+   function i_log2ceil (x: integer) return integer;
 end CONSTANTS;
 
 package body CONSTANTS is
+
    function max (a: integer; b: integer) return integer is
    begin
       if a >= b then
@@ -23,4 +29,15 @@ package body CONSTANTS is
          return b;
       end if;
    end function;
+
+   function i_log2ceil (x: integer) return integer is
+   begin
+      return integer(ceil(log2(real(x))));
+   end function;
+
+   function if_fn (cond: boolean; t: integer; f: integer) return integer is
+   begin
+      if cond then return t; else return f; end if;
+   end function;
+
 end CONSTANTS;
