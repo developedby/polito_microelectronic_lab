@@ -1,0 +1,16 @@
+analyze -library WORK -format vhdl {
+  constants.vhd
+  g_block.vhd
+  pg_block.vhd
+  pstlaa.vhd
+  carry_generator.vhd
+  fa.vhd
+  rca.vhd
+  carry_select_block.vhd
+  sum_generator.vhd
+  p4_adder.vhd
+}
+
+elaborate -parameters {NBIT=32 NBIT_PER_BLOCK=4} -library WORK p4_adder.structural
+
+compile -exact_map

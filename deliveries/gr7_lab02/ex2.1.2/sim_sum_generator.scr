@@ -1,0 +1,10 @@
+vcom -work work /home/ms23.7/lab2/vhdlsim/constants.vhd
+vcom -work work /home/ms23.7/lab2/vhdlsim/fa.vhd
+vcom -work work /home/ms23.7/lab2/vhdlsim/rca.vhd
+vcom -work work /home/ms23.7/lab2/vhdlsim/carry_select_block.vhd
+vcom -work work /home/ms23.7/lab2/vhdlsim/sum_generator.vhd
+vcom -work work /home/ms23.7/lab2/vhdlsim/lfsr.vhd
+vcom -work work /home/ms23.7/lab2/vhdlsim/tb_sum_generator.vhd
+vsim -t 1ps work.TBSUM_GENERATOR
+add wave *
+run 50ns

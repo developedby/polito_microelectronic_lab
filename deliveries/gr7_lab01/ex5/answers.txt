@@ -1,0 +1,18 @@
+Question 1: What can you do to solve the problem?
+
+The behavioral architecture for the RCA did not include either a delay for the output signal, nor did it calculate the carry out.
+Our solution to this implementation was to extend the inputs to one more bit, then add them all up. The carry out is the MSB of the extended sum, and the sum result are the other lower bits.
+We implemented the delay on the assignment that splits the extended sum in the two parts. This means that we will not observe ripple in the simulation output for this architecture, since the sum is done all at once without delay.
+
+
+Question 2: Which is the difference among the three output “S1”, “S2”, “S3”?
+
+S1 comes from the structural implementation of the RCA, with a little bit of delay on calculating the sum, but no delay on calculating and propagating the carries. This means the results will take some time to appear, but there will be no ripple.
+S2 is also the structural version of the RCA, but with delay on the carries. This means the result of the first FA takes some time to reach the second one, so the result will oscillate rapidly before settling at the final value.
+S3 is a behavioral implementation, actually not an RCA at all, since it doesn't define how the adders is structure, it just defines the general behavior of any adder. Because of how we implemented the delays, this one will also not have any ripples on the output.
+
+
+Question 3: Zoom the waves in the range 24.5ns - 24.6ns: what’s happening to the three outputs?
+
+For S1 and S3, we can see that the output takes some time to change, they stay with the old value and after a couple of ps, change to the new result.
+For S2, because it has a delay in propagating the carries of each interal full adder, we can see the result oscillating as each of the adders updates to the new value one by one.

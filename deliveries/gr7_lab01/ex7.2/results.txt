@@ -1,0 +1,11 @@
+ All the functions of the ALU work as expected.
+ The compile script compiles the needed files, generates the post-synthesis netlist and a timing and area report.
+
+ For some reason, the synthesis is adding a latch in the output, even though we only have on process, sensitive to all the inputs which assigns to the output on every valid case. Maybe it's due to the "when others => null" statement, which should not happen normally, since we cover all the possible values of ALU_TYPE.
+ Perhaps changing it to (when others => OUTALU <= (others => '0')) would solve this, or using a concurrent assignment instead of a process could also solve it, but we didn't try it.
+
+ The timing report shows the largest delay as being the output latch, even though I'm pretty sure the other paths are much longer, like for the multiplier.
+
+ The synthesiszer was able to optimize this design pretty well, compared to presynthesis, the circuit got significantly smaller and compiled down to under 80 combinational cells.
+
+ We tried implementing the barrel shifter by generating a cascade of signals each shifting a power of two corresponding to the bits in the second input. However, this did not work and was giving unknown (X) outputs, so we fell back to shifting only 1 bit at a time.

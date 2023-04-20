@@ -1,0 +1,21 @@
+This waveform shows the simulation of 2 architectures of our accumulator, one structural and one behavioural.
+
+A_i and B_i are the input numbers for the accumulator.
+Y_s and Y_b are the outputs of the structural and behavioural accumutaors respectively.
+RST_n_i resets the value of the accumulator when 0, which also puts the output at 0.
+ACC_EN_n_i lets the accumulator update it's output when 0, and fixes at the last value when 1.
+ACCUMULATE_i decides if the second input of the accumulator comes from B_i or the previously accumulated value.
+
+We start the simulation by reseting both components. Since reset is synchronous, the outputs first start with an unknown value then change to 0 even though the input is not 0.
+
+At clock cycle 2, we release the reset add A with the accumulated value (1 + 0 = 1).
+
+At clock cycle 3, we add A with B, replacing the accumulated value (1 + 2 = 3).
+
+At clock cycles 4, 5 and 6 we keep accumulating the stored value with 16.
+
+At clock cycle 7 we set the output to a new value (272) then at clock cycle 8 we disable the accumulator and we can see that the value does not accumulate as expected, but instead remais at the previous value.
+
+Both architectures show the same behavior during simulation, as expected.
+
+
