@@ -1,0 +1,36 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : register_file_WIDTH_REG32_NUM_REGS32
+Version: S-2021.06-SP4
+Date   : Thu Apr 27 10:36:51 2023
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: out_reg1_reg[21]
+              (rising edge-triggered flip-flop)
+  Endpoint: OUT1[21] (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  register_file_WIDTH_REG32_NUM_REGS32
+                     5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  out_reg1_reg[21]/CK (DFF_X1)             0.00       0.00 r
+  out_reg1_reg[21]/Q (DFF_X1)              0.10       0.10 r
+  OUT1[21] (out)                           0.00       0.10 r
+  data arrival time                                   0.10
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

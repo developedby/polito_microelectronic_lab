@@ -1,0 +1,31 @@
+ 
+****************************************
+Report : area
+Design : register_file_WIDTH_REG32_NUM_REGS32
+Version: S-2021.06-SP4
+Date   : Thu Apr 27 10:36:51 2023
+****************************************
+
+Information: Updating design information... (UID-85)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/mariagrazia.graziano/do/libnangate/NangateOpenCellLibrary_typical_ecsm.db)
+
+Number of ports:                          117
+Number of nets:                          4314
+Number of cells:                         4261
+Number of combinational cells:           3173
+Number of sequential cells:              1088
+Number of macros/black boxes:               0
+Number of buf/inv:                        564
+Number of references:                      18
+
+Combinational area:               4458.426026
+Buf/Inv area:                      421.343991
+Noncombinational area:            4919.935822
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                  9378.361848
+Total area:                 undefined
+1

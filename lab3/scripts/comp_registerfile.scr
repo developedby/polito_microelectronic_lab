@@ -1,0 +1,24 @@
+analyze -library WORK -format vhdl {
+  aux.vhd
+  registerfile.vhd
+}
+
+elaborate -parameters {WIDTH_REG=32, NUM_REGS=32} -library WORK register_file -architecture A
+
+# Compile without contraints and save report
+compile
+report_area > registerfile_area_unconstrained.txt
+report_timing > registerfile_time_unconstrained.txt
+
+# With clock constraint
+create_clock -name "CLK" -period 2 CLK
+compile
+report_area > registerfile_area_clock.txt
+report_timing > registerfile_time_clock.txt
+
+# With clock and overall timing constraint
+set_max_delay 2 -from [all_inputs] -to [all_outputs]
+compile
+report_area > registerfile_area_constrained.txt
+report_timing > registerfile_time_constrained.txt
+write -hierarchy -format vhdl -output /home/ms23.7/lab3/syn/postsyn_registerfile_optimized.vhdl

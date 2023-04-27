@@ -11,6 +11,6 @@ analyze -library WORK -format vhdl {
   p4_adder.vhd
 }
 
-elaborate -parameters {NBIT=32 NBIT_PER_BLOCK=4} -library WORK p4_adder.structural
+elaborate -parameters {NBIT=32, NBIT_PER_BLOCK=4} -library WORK p4_adder -architecture structural
 
 compile -exact_map

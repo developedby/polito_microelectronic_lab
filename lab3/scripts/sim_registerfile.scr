@@ -1,0 +1,6 @@
+vcom -work work /home/ms23.7/lab3/vhdlsim/aux.vhd
+vcom -work work /home/ms23.7/lab3/vhdlsim/registerfile.vhd
+vcom -work work /home/ms23.7/lab3/vhdlsim/tb_registerfile.vhd
+vsim -t 100ps work.TBREGISTERFILE
+add wave *
+run 50ns

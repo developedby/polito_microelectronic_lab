@@ -15,13 +15,29 @@ end	sipisoAluControl;
 
 architecture FSM_OPC of sipisoAluControl is
 
+	-- S0 = idle
+	-- AF = A first
+	-- Wb = Wait for B
+	-- BS = B second
+	-- BF = B first
+	-- WA = Wait for A
+	-- AS = A second
+	-- C = output C
 	type TYPE_STATE is (S0, AF0, AF1, AF2, AF3, WB, BS, BF, WA, AS0, AS1, AS2, AS3, C0, C1, C2, C3);
 	signal CURRENT_STATE: TYPE_STATE := S0;
 	signal NEXT_STATE: TYPE_STATE := S0;
 	signal intO: std_logic_vector(4 downto 0) := "00000";
 
 begin
- 	
+ 	-- This define a state machine with 2 main path:]
+	--	We either load A serially, then B in parallel, the output the sum
+	--  Or we first load B, then A then output
+  -- However, from loading A first we can reset the operation by strobing A again,
+	-- we can load B multiple consecutive multiple consecutive times by storbing B every clock,
+	-- we can also reset loading A second by strobing B which is probably a bug.
+	-- When outputing we cannot restart until all the outputs have been shifted out.
+
+
 	P_OPC : process(clk, rst)		
 	begin
 		if rst='1' then
