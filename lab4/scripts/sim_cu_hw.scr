@@ -1,0 +1,6 @@
+vcom -work work /home/ms23.7/lab4/vhdlsim/myTypes_hw.vhd
+vcom -work work /home/ms23.7/lab4/vhdlsim/cu_hardwired.vhd
+vcom -work work /home/ms23.7/lab4/vhdlsim/tb_cu_hardwired.vhd
+vsim -t 100ps work.tb_cu_hardwired
+add wave *
+run 50ns
