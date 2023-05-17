@@ -120,9 +120,8 @@ architecture up of cu_microprocessed is
     "000" & "00001" & "00000",
     "000" & "00000" & "10111",
     "0000000000000",
-    -- 14: NOP
+    -- 14, 15: NOP
     "0000000000000", "0000000000000", "0000000000000", "0000000000000",
-    -- 15: NOP
     "0000000000000", "0000000000000", "0000000000000", "0000000000000",
     -- 16.0: ADD RS1,RS2,RD
     "111" & "00000" & "00000",
@@ -159,8 +158,10 @@ architecture up of cu_microprocessed is
     "0000000000000", "0000000000000", "0000000000000", "0000000000000"
   );
 
+  constant addr_width : natural := i_log2ceil(UC_MEM_SIZE);
+
   -- A register to hold the address of the microcode memory being read
-  signal instruction_ptr : std_logic_vector(i_log2ceil(UC_MEM_SIZE) - 1 downto 0);
+  signal instruction_ptr : std_logic_vector(addr_width - 1 downto 0);
   -- The output control word
   signal control_word : control_word_t;
   -- A cycle counter to know when to read next input.
@@ -191,14 +192,16 @@ begin
   control_word <= microcode(to_integer(unsigned(instruction_ptr)));
 
   -- Every 3 cycles we fetch a new instruction.
-  -- In the other 2 cycles we increment the instruction pointer (instruction_ptr)
+  -- In the other 2 cycles we increment the instruction pointer
   cycle_proc : process (clk)
   begin
     if rising_edge(clk) then
       if rst = '1' then
+        -- Reset
         cycle_counter   <= "10";
         instruction_ptr <= (others => '1');
       else
+        -- Normal cycle
         if cycle_counter = "10" then
           -- On cycle 2 (so every 3), read new input
           -- and use it as new microcode address.
@@ -206,22 +209,19 @@ begin
 
           if opcode(r_bit) = '0' then
             -- I-type instructions use OPCODE as the microcode address
-            instruction_ptr(5)                                           <= '0';
-            instruction_ptr(4 downto 2)                                  <= opcode;
-            instruction_ptr(1 downto 0)                                              <= "00";
+            instruction_ptr(addr_width - 1)          <= '0'; -- R-type relocation is 0
+            instruction_ptr(addr_width - 2 downto 2) <= opcode(3 downto 0); -- opcode determines address
+            instruction_ptr(1 downto 0)              <= "00"; -- Last 2 bits are for the 3 cycles of microcode
           else
             -- R-type instructions use FUNC as the microcode address (+ 16)
-            instruction_ptr(FUNC_SIZE + 2)                                           <= '1';
-            instruction_ptr(FUNC_SIZE + 1 downto 4)                                  <= (others => '0');
-            instruction_ptr(3 downto 2)                                              <= FUNC(1 downto 0);
-            instruction_ptr(1 downto 0)                                              <= "00";
+            instruction_ptr(addr_width - 1)          <= '1'; -- R-type relocation is 1
+            instruction_ptr(addr_width - 2 downto 2) <= FUNC(3 downto 0); -- func determines address
+            instruction_ptr(1 downto 0)              <= "00"; -- The 3 micro instructions per input
           end if;
         else
-          -- Go to next cycle for this input
-          cycle_counter <= cycle_counter + 1;
-
-          instruction_ptr(i_log2ceil(UC_MEM_SIZE) - 1 downto 2) <= instruction_ptr(i_log2ceil(UC_MEM_SIZE) - 1 downto 2);
-          instruction_ptr(1 downto 0)                                  <= std_logic_vector(unsigned(instruction_ptr(1 downto 0)) + 1);
+          -- Go to next cycle for this input, increment instruction pointer by 1
+          cycle_counter   <= cycle_counter + 1;
+          instruction_ptr <= std_logic_vector(unsigned(instruction_ptr) + 1);
         end if;
       end if;
     end if;

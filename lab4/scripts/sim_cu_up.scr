@@ -1,0 +1,7 @@
+vcom -work work /home/ms23.7/lab4/vhdlsim/funcs.vhd
+vcom -work work /home/ms23.7/lab4/vhdlsim/myTypes_up.vhd
+vcom -work work /home/ms23.7/lab4/vhdlsim/cu_microprocessed.vhd
+vcom -work work /home/ms23.7/lab4/vhdlsim/tb_cu_microprocessed.vhd
+vsim -voptargs="+acc" -t 100ps work.tb_cu_microprocessed
+add wave *
+run 120ns
